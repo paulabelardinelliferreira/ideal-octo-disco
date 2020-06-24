@@ -21,10 +21,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElementLocated;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -52,14 +49,14 @@ public class ChromeTest {
         driver = new ChromeDriver();
     }
 
-    @After
+    /*@After
     public void teardown() {
         if (driver != null) {
             driver.quit();
         }
-    }
-
-    @Test
+    }*/
+    /*Exemplo dado em aula
+    /*@Test
     public void test() {
         // Your test code here. For example:
         WebDriverWait wait = new WebDriverWait(driver, 30);
@@ -73,6 +70,27 @@ public class ChromeTest {
 
         wait.until(textToBePresentInElementLocated(By.tagName("body"),
                 "Computer software"));
+    }*/
+    @Test
+    public void realizarLoginComSucesso(){
+        driver.get("https://www.saucedemo.com/index.html");
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.id("password")).sendKeys("secret_sauce");
+        driver.findElement(By.xpath("//*[@id=\"login_button_container\"]/div/form/input[3]")).click();
+        Assert.assertEquals("Products",driver.findElement(By.xpath("//*[@id=\"inventory_filter_container\"]/div")).getText());
     }
-
+    @Test
+    public void realizarLoginComFalha(){
+        driver.get("https://www.saucedemo.com/index.html");
+        driver.findElement(By.id("user-name")).sendKeys("usuario_invalido");
+        driver.findElement(By.id("password")).sendKeys("senha_invalida");
+        driver.findElement(By.xpath("//*[@id=\"login_button_container\"]/div/form/input[3]")).click();
+        Assert.assertEquals("Epic sadface: Username and password do not match any user in this service",driver.findElement(By.xpath("//*[@id=\"login_button_container\"]/div/form/h3")).getText());
+    }
+    @Test
+    public void testarCamposObrigatoriosLogin(){
+        driver.get("https://www.saucedemo.com/index.html");
+        driver.findElement(By.xpath("//*[@id=\"login_button_container\"]/div/form/input[3]")).click();
+        Assert.assertEquals("Epic sadface: Username is required",driver.findElement(By.xpath("//*[@id=\"login_button_container\"]/div/form/h3")).getText());
+    }
 }
