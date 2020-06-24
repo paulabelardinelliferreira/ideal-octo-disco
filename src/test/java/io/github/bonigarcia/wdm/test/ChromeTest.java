@@ -93,4 +93,10 @@ public class ChromeTest {
         driver.findElement(By.xpath("//*[@id=\"login_button_container\"]/div/form/input[3]")).click();
         Assert.assertEquals("Epic sadface: Username is required",driver.findElement(By.xpath("//*[@id=\"login_button_container\"]/div/form/h3")).getText());
     }
+    @Test
+    public void adicionarProdutoaoCarrinho(){
+        realizarLoginComSucesso();
+        driver.findElement(By.xpath("//*[@id=\"inventory_container\"]/div/div[1]/div[3]/button")).click();
+        Assert.assertEquals("REMOVE", driver.findElement(By.xpath("//*[@id=\"inventory_container\"]/div/div[1]/div[3]/button")).getText());
+    }
 }
